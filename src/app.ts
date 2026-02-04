@@ -2,9 +2,10 @@ import express from 'express';
 import morgan from 'morgan';
 
 const app = express();
-
-// app.get('/', (req, res) => {
-// });
 app.use(morgan('dev'));
+
+app.get('/', (req, res) => {
+  res.send('Hello TaMa!');
+});
 
 export default app;
