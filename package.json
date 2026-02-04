@@ -1,0 +1,26 @@
+{
+  "name": "tama-backend",
+  "version": "1.0.0",
+  "description": "Your own Task Manager",
+  "homepage": "https://github.com/DecoderNikhil/TaMa-Backend#readme",
+  "bugs": {
+    "url": "https://github.com/DecoderNikhil/TaMa-Backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DecoderNikhil/TaMa-Backend.git"
+  },
+  "license": "ISC",
+  "author": "Nikhil",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
