@@ -2,8 +2,7 @@ import express from 'express';
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello TaMa!');
-});
+// app.get('/', (req, res) => {
+// });
 
 export default app;
