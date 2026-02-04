@@ -59,15 +59,6 @@ export const register = async (req: any, res: any) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        refreshToken: hashedRefreshToken,
-      },
-    });
     res.status(201).json({
       status: 'success',
       message: 'User registered successfully',
@@ -89,6 +80,7 @@ export const register = async (req: any, res: any) => {
 export const login = async (req: any, res: any) => {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
       throw new Error('Email or password is missing');
     }
@@ -117,16 +109,6 @@ export const login = async (req: any, res: any) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        refreshToken: hashedRefreshToken,
-      },
-    });
-
     res.status(200).json({
       status: 'success',
       message: 'User logged in successfully',
@@ -144,33 +126,24 @@ export const login = async (req: any, res: any) => {
 
 export const refreshAccessToken = async (req: any, res: any) => {
   try {
-    const { userId } = req.body;
-    if (!userId) {
-      throw new Error('User id is missing');
-    }
-
     const { refreshToken } = req.cookies;
     if (!refreshToken) {
       throw new Error('Refresh token is missing');
     }
 
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET as string,
+    ) as { userId: number };
+
     const user = await prisma.user.findFirst({
       where: {
-        id: userId,
+        id: decoded.userId,
       },
     });
 
     if (!user) {
       throw new Error('User not found');
-    }
-
-    const isRefreshTokenCorrect = await bcrypt.compare(
-      refreshToken,
-      user.refreshToken as string,
-    );
-
-    if (!isRefreshTokenCorrect) {
-      throw new Error('Refresh token is invalid');
     }
 
     const accessToken = generateAccessToken(user.id);
@@ -183,6 +156,7 @@ export const refreshAccessToken = async (req: any, res: any) => {
       },
     });
   } catch (err: any) {
+    console.log(err);
     res.status(500).json({
       status: 'error',
       message: err.message,
