@@ -205,3 +205,35 @@ export const logout = async (req: any, res: any) => {
     });
   }
 };
+
+export const authenticateUser = async (req: any, res: any, next: any) => {
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer ')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+    if (!token) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'Unauthorized',
+      });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET as string,
+    ) as { userId: number };
+
+    req.user = { id: decoded.userId };
+    next();
+  } catch (err: any) {
+    res.status(401).json({
+      status: 'error',
+      message: 'Unauthorized',
+    });
+  }
+};
