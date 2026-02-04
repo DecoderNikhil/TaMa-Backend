@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticateUser } from '../controllers/authController.ts';
+import { authenticateUser } from '../controllers/authController.js';
 import {
   createTask,
   getTasks,
@@ -7,7 +7,7 @@ import {
   updateTask,
   deleteTask,
   toggleTaskStatus,
-} from '../controllers/taskController.ts';
+} from '../controllers/taskController.js';
 
 const router = express.Router();
 

@@ -3,8 +3,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import authRoutes from './routes/authRoutes.ts';
-import taskRoutes from './routes/taskRoutes.ts';
+import authRoutes from './routes/authRoutes.js';
+import taskRoutes from './routes/taskRoutes.js';
 
 const app = express();
 
