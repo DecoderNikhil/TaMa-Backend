@@ -13,11 +13,12 @@
   "license": "ISC",
   "author": "Nikhil",
   "type": "module",
-  "main": "app.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^5.2.1"
   },
   "devDependencies": {
