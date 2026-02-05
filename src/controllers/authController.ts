@@ -55,7 +55,8 @@ export const register = async (req: any, res: any) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      // sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      sameSite: 'none',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
@@ -105,7 +106,8 @@ export const login = async (req: any, res: any) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      // sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      sameSite: 'none',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
@@ -166,7 +168,11 @@ export const refreshAccessToken = async (req: any, res: any) => {
 
 export const logout = async (req: any, res: any) => {
   try {
-    res.clearCookie('refreshToken');
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
+    });
 
     res.status(200).json({
       status: 'success',
